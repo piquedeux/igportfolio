@@ -130,6 +130,7 @@
     position: absolute;
     left: 12mm;
     bottom: 12mm;
+    font-size: inherit;
     transform: rotate(-45deg);
     transform-origin: left bottom;
 }
@@ -183,6 +184,7 @@
 
 .editor-page h1 {
     font-weight: normal;
+    font-size: inherit;
     margin-bottom: 0.2em;
 }
 
@@ -249,6 +251,7 @@
 }
 
 .editor-page .post-item {
+    position: relative;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.75);
     padding: 14px;
@@ -282,28 +285,83 @@
 }
 
 .editor-page .post-item>.remove-post {
-    width: auto;
-    margin: 12px 0 0;
-    padding: 6px 12px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    min-height: 28px;
+    margin: 0;
+    padding: 0;
     border-width: 1px;
+    font-size: 0;
+    line-height: 1;
+}
+
+.editor-page .post-item>.remove-post::before {
+    content: "×";
+    font-size: 1.25rem;
+}
+
+.editor-page .post-item>.remove-post[hidden] {
+    display: none;
 }
 
 .editor-page .carousel-option {
     display: grid;
-    grid-template-columns: 1fr 84px;
+    grid-template-columns: 1fr auto;
     align-items: center;
     gap: 8px;
     margin-top: 10px;
 }
 
+.editor-page .carousel-stepper {
+    display: grid;
+    grid-template-columns: 28px 58px;
+    grid-template-rows: 22px 22px;
+    gap: 2px;
+}
+
 .editor-page .carousel-index {
-    width: 84px;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: 58px;
+    height: 46px;
     padding: 6px 8px;
     margin: 0;
     background: transparent;
     border: 1px solid #fff;
     color: #fff;
     font: inherit;
+    appearance: textfield;
+}
+
+.editor-page .carousel-index::-webkit-inner-spin-button,
+.editor-page .carousel-index::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+}
+
+.editor-page .carousel-step {
+    display: grid;
+    place-items: center;
+    grid-column: 1;
+    width: 28px;
+    min-height: 22px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #fff;
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+.editor-page .carousel-step[data-step="1"] {
+    grid-row: 1;
+}
+
+.editor-page .carousel-step[data-step="-1"] {
+    grid-row: 2;
 }
 
 .editor-page input[type="text"],
@@ -460,7 +518,7 @@
     }
 
     .editor-page .carousel-option {
-        grid-template-columns: 1fr 76px;
+        grid-template-columns: 1fr auto;
     }
 
     .editor-page .row {

@@ -55,7 +55,11 @@ if (postFields && addPost && form) {
             <input type="text" name="urls[]" id="post-url-${postNumber}" placeholder="https://www.instagram.com/p/CXXXXXXXXXX/" required>
             <label class="carousel-option">
                 Carousel image index
+              <span class="carousel-stepper">
+                <button type="button" class="carousel-step" data-step="1" aria-label="Increase carousel image index">↑</button>
                 <input type="number" name="carousel_index[]" class="carousel-index" min="1" step="1" value="${carouselIndex}">
+                <button type="button" class="carousel-step" data-step="-1" aria-label="Decrease carousel image index">↓</button>
+              </span>
             </label>`;
     const input = item.querySelector('input[name="urls[]"]');
     input.type = "text";
@@ -64,10 +68,12 @@ if (postFields && addPost && form) {
     removeButton.type = "button";
     removeButton.className = "remove-post";
     removeButton.setAttribute("aria-label", "Remove post");
+    removeButton.hidden = true;
     removeButton.textContent = "Remove";
     item.append(removeButton);
     postFields.append(item);
     bindPostItem(item);
+    updateRemoveButtons();
     updateAddButton();
   }
 
@@ -124,11 +130,29 @@ if (postFields && addPost && form) {
       normalizeCarouselLinks();
       saveFormState();
     });
+    item.querySelectorAll(".carousel-step").forEach((button) => {
+      button.addEventListener("click", () => {
+        const input = item.querySelector(".carousel-index");
+        const currentValue = Number(input.value) || 1;
+        input.value = Math.max(1, currentValue + Number(button.dataset.step));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+    });
     item.querySelector(".remove-post").addEventListener("click", () => {
       if (getPostItems().length <= 4) return;
       item.remove();
+      updateRemoveButtons();
       updateAddButton();
       saveFormState();
+    });
+  }
+
+  function updateRemoveButtons() {
+    const canRemove = getPostItems().length > 4;
+    getPostItems().forEach((item) => {
+      const removeButton = item.querySelector(".remove-post");
+      removeButton.hidden = !canRemove;
+      removeButton.setAttribute("aria-hidden", String(!canRemove));
     });
   }
 
@@ -153,5 +177,6 @@ if (postFields && addPost && form) {
 
   getPostItems().forEach(bindPostItem);
   restoreFormState();
+  updateRemoveButtons();
   updateAddButton();
 }

@@ -124,8 +124,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['urls']) &&
         <meta charset="UTF-8">
         <meta name="referrer" content="no-referrer">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Professional Instagram Portfolio</title>
-        <link rel="stylesheet" href="style.css">
+        <title>Instagram Posts Portfolio</title>
+        <link rel="stylesheet" href="style.css?v=<?php echo filemtime(__DIR__ . '/style.css'); ?>">
     </head>
     <body class="preview <?php echo $font === 'sans' ? 'font-sans' : 'font-serif'; ?>">
         <div class="no-print">
@@ -170,7 +170,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['urls']) &&
                         $pageClass = is_string($pageType) ? $pageType : '';
                         if ($pageType === 'cover'): ?>
                             <div class="page cover">
-                                <h1 class="<?php echo $cover_bold ? 'cover-title-bold' : ''; ?>"><?php echo htmlspecialchars($cover_title ?: 'PROFESSIONAL PORTFOLIO'); ?></h1>
+                                <h1 class="<?php echo $cover_bold ? 'cover-title-bold' : ''; ?>"><?php echo htmlspecialchars($cover_title ?: 'INSTAGRAM POSTS PORTFOLIO'); ?></h1>
                                 <div class="cover-meta">
                                     <?php if (!empty($cover_name)): ?><div><?php echo htmlspecialchars($cover_name); ?></div><?php endif; ?>
                                     <?php if (!empty($cover_date)): ?><div><?php echo htmlspecialchars($cover_date); ?></div><?php endif; ?>
@@ -206,7 +206,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['urls']) &&
             endforeach;
             ?>
         </div>
-        <script src="script.js"></script>
+        <script src="script.js?v=<?php echo filemtime(__DIR__ . '/script.js'); ?>"></script>
     </body>
     </html>
     <?php
@@ -220,14 +220,14 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['urls']) &&
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Instagram Posts Portfolio</title>
+    <link rel="stylesheet" href="style.css?v=<?php echo filemtime(__DIR__ . '/style.css'); ?>">
 </head>
 <body class="editor-page">
     <a class="site-link" href="https://fbeing.online">fbeing.online</a>
     <div class="card">
         <div class="title-row">
-            <h1>Professional Portfolio</h1>
+            <h1>Instagram Posts Portfolio</h1>
             <button type="button" id="info-button" class="info-button" aria-expanded="false" aria-controls="info-panel">i</button>
         </div>
         <div id="info-panel" class="info-panel" hidden>
@@ -248,9 +248,13 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['urls']) &&
                         <input type="text" name="urls[]" id="post-url-<?php echo $postIndex + 1; ?>" value="<?php echo htmlspecialchars($submittedUrls[$postIndex] ?? ''); ?>" placeholder="https://www.instagram.com/p/CXXXXXXXXXX/" required>
                         <label class="carousel-option">
                             Carousel image index
-                            <input type="number" name="carousel_index[]" class="carousel-index" min="1" step="1" value="<?php echo htmlspecialchars($submittedCarouselIndexes[$postIndex] ?? ''); ?>" placeholder="">
+                            <span class="carousel-stepper">
+                                <button type="button" class="carousel-step" data-step="1" aria-label="Increase carousel image index">↑</button>
+                                <input type="number" name="carousel_index[]" class="carousel-index" min="1" step="1" value="<?php echo htmlspecialchars($submittedCarouselIndexes[$postIndex] ?? ''); ?>">
+                                <button type="button" class="carousel-step" data-step="-1" aria-label="Decrease carousel image index">↓</button>
+                            </span>
                         </label>
-                        <button type="button" class="remove-post" aria-label="Remove post">Remove</button>
+                        <button type="button" class="remove-post" aria-label="Remove post" hidden>Remove</button>
                     </div>
                 <?php endfor; ?>
             </div>
@@ -286,7 +290,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['urls']) &&
             <div class="row">
                 <div>
                     <label for="cover_title">Cover title</label>
-                    <input type="text" name="cover_title" id="cover_title" placeholder="Professional Portfolio">
+                    <input type="text" name="cover_title" id="cover_title" placeholder="Instagram Posts Portfolio">
                 </div>
                 <div>
                     <label for="cover_name">Name</label>
@@ -312,6 +316,6 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['urls']) &&
             <?php if ($formError !== ''): ?><p class="form-error"><?php echo htmlspecialchars($formError); ?></p><?php endif; ?>
         </form>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js?v=<?php echo filemtime(__DIR__ . '/script.js'); ?>"></script>
 </body>
 </html>
