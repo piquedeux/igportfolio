@@ -109,7 +109,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['urls']) &&
         $placement = 'contained';
     }
 
-    $logicalPages = array_merge(['cover'], $images);
+    $logicalPages = $format === 'a4_landscape'
+        ? array_merge(['cover'], $images, ['backcover'])
+        : array_merge(['cover'], $images);
     $pagesNeeded = $format === 'digital_portfolio'
         ? (int) (ceil(count($logicalPages) / 2) * 2)
         : (int) (ceil(count($logicalPages) / 4) * 4);
@@ -178,6 +180,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['urls']) &&
                             </div>
                         <?php elseif ($pageClass === 'empty'): ?>
                             <div class="page empty"></div>
+                        <?php elseif ($pageType === 'backcover'): ?>
+                            <div class="page backcover"></div>
                         <?php else: ?>
                             <?php
                             $imageClass = 'post-image post-image-' . $placement;
